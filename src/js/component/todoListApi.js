@@ -24,21 +24,13 @@ export class TodoListApi extends React.Component {
 	onChange = e => this.setState({ currentValue: e.target.value });
 
 	componentDidMount() {
-		return fetch(
-			"https://assets.breatheco.de/apis/fake/todos/user/farp80",
-			{
-				method: "POST",
-				header: {
-					Accept: "application/json",
-					"Content-Type": "application/json"
-				},
-				body: JSON.stringify([])
-			}
-		)
-			.then(response => response.json())
-			.then(responseAsJson => {
-				console.log(responseAsJson);
-			});
+		fetch("https://assets.breatheco.de/apis/fake/todos/user/farp852", {
+			method: "POST",
+			header: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify([])
+		}).then(response => console.log(response));
 	}
 
 	render() {
