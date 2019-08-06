@@ -32,7 +32,7 @@ export class TodoListApi extends React.Component {
 					Accept: "application/json",
 					"Content-Type": "application/json"
 				},
-				body: []
+				body: JSON.stringify([])
 			}
 		)
 			.then(response => response.json())
