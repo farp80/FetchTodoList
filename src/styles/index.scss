@@ -1,13 +1,50 @@
 @import "~bootstrap/scss/bootstrap.scss";
+.todoListDiv{
+    text-align: center;
+    border: solid grey;
+    border-radius: 5px;
+    padding-bottom: 10px;
+}
 
-/* 
+.containerForList{
+    margin: auto;
+    border: solid #555;
+    border-radius: 15px;
+}
 
-    You can write your own styles here...
-    
-    
-    ...Or you can use the import command to include 
-    other sylesheets into your bunde as well, e.j:
-    
-    import 'relative/path/to/stylesheet.scss';
+.lastItemInList{
+    font-size: xx-small !important;
+}
 
-*/
+h1{
+    align-items: center !important;
+}
+
+button {
+  padding-left: 10px;
+  background: #d9d9d9;
+  color: #555;
+  float: left;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.3s;
+  border-radius: 0.5px;
+}
+
+li:hover span{
+    opacity: 1.0;
+    width: 40px;
+    cursor: pointer;
+}
+
+span{
+    height: 35px;
+    width: 0;
+    float: right;
+    text-align: center;
+    color: lightgrey;
+    opacity: 0;
+    transition: .2s linear;
+}
+
+
