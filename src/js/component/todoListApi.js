@@ -16,21 +16,77 @@ export class TodoListApi extends React.Component {
 	onClick = () => {
 		const { currentValue, data } = this.state;
 		if (currentValue) {
-			const nextState = [...data, currentValue];
-			this.setState({ data: nextState, currentValue: "" });
+			var temp = {
+				label: currentValue,
+				done: false
+			};
+			const nextState = [...data, temp];
+			this.updateTodoInAcademy(nextState);
 		}
+	};
+
+	removeItem = i => {
+		let todos = this.state.data.slice();
+		todos.splice(i, 1);
+		this.updateTodoInAcademy(todos);
 	};
 
 	onChange = e => this.setState({ currentValue: e.target.value });
 
+	fetchingData() {
+		fetch("https://assets.breatheco.de/apis/fake/todos/user/farp260696", {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json"
+			}
+		})
+			.then(response => {
+				if (response.ok) {
+					return response.json();
+				}
+			})
+			.then(resp => {
+				if (resp.length != 0) {
+					this.setState({ data: resp });
+				}
+			});
+	}
+
 	componentDidMount() {
-		fetch("https://assets.breatheco.de/apis/fake/todos/user/farp852", {
+		this.fetchingData();
+	}
+
+	createTodoInAcademy() {
+		fetch("https://assets.breatheco.de/apis/fake/todos/user/farp260696", {
 			method: "POST",
-			header: {
+			headers: {
 				"Content-Type": "application/json"
 			},
 			body: JSON.stringify([])
-		}).then(response => console.log(response));
+		}).then(response => {
+			if (response.ok) {
+				this.setState({ isCreated: true });
+			}
+		});
+	}
+
+	updateTodoInAcademy(valuesArray) {
+		fetch("https://assets.breatheco.de/apis/fake/todos/user/farp260696", {
+			method: "PUT",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify(valuesArray)
+		})
+			.then(response => {
+				if (response.ok) {
+					this.setState({ currentValue: "" });
+					return response.json();
+				}
+			})
+			.then(data => {
+				this.fetchingData();
+			});
 	}
 
 	render() {
@@ -72,7 +128,7 @@ export class TodoListApi extends React.Component {
 										onClick={() => {
 											this.removeItem(i);
 										}}>
-										{item}
+										{item.label}
 										<span>x</span>
 									</li>
 								))}
