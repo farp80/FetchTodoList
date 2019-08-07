@@ -100,6 +100,29 @@ export class TodoListApi extends React.Component {
 							<div className="input-group mb-3">
 								<input
 									type="text"
+									// value={currentValue}
+									// onChange={this.onChange}
+									className="form-control"
+									placeholder="Username ..."
+									aria-label="Username ..."
+									aria-describedby="basic-addon2"
+								/>
+								<div className="input-group-append">
+									<button
+										onClick={this.onClick}
+										className="btn btn-outline-secondary"
+										type="button">
+										Add User
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div className="row">
+						<div className="col">
+							<div className="input-group mb-3">
+								<input
+									type="text"
 									value={currentValue}
 									onChange={this.onChange}
 									className="form-control"
