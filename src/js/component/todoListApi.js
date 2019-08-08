@@ -9,7 +9,8 @@ export class TodoListApi extends React.Component {
 		this.state = {
 			data: [],
 			currentValue: "",
-			isCreated: false
+			isCreated: false,
+			username: ""
 		};
 	}
 
@@ -32,14 +33,19 @@ export class TodoListApi extends React.Component {
 	};
 
 	onChange = e => this.setState({ currentValue: e.target.value });
+	onChangeUsername = e => this.setState({ username: e.target.value });
 
 	fetchingData() {
-		fetch("https://assets.breatheco.de/apis/fake/todos/user/farp260696", {
-			method: "GET",
-			headers: {
-				"Content-Type": "application/json"
+		fetch(
+			"https://assets.breatheco.de/apis/fake/todos/user/" +
+				this.state.username,
+			{
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json"
+				}
 			}
-		})
+		)
 			.then(response => {
 				if (response.ok) {
 					return response.json();
@@ -57,27 +63,40 @@ export class TodoListApi extends React.Component {
 	}
 
 	createTodoInAcademy() {
-		fetch("https://assets.breatheco.de/apis/fake/todos/user/farp260696", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify([])
-		}).then(response => {
-			if (response.ok) {
-				this.setState({ isCreated: true });
+		fetch(
+			"https://assets.breatheco.de/apis/fake/todos/user/" +
+				this.state.username,
+			{
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify([])
 			}
-		});
+		)
+			.then(response => {
+				if (response.ok) {
+					this.setState({ isCreated: true });
+					return response.json();
+				}
+			})
+			.then(data => {
+				this.fetchingData();
+			});
 	}
 
 	updateTodoInAcademy(valuesArray) {
-		fetch("https://assets.breatheco.de/apis/fake/todos/user/farp260696", {
-			method: "PUT",
-			headers: {
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify(valuesArray)
-		})
+		fetch(
+			"https://assets.breatheco.de/apis/fake/todos/user/" +
+				this.state.username,
+			{
+				method: "PUT",
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify(valuesArray)
+			}
+		)
 			.then(response => {
 				if (response.ok) {
 					this.setState({ currentValue: "" });
@@ -89,8 +108,14 @@ export class TodoListApi extends React.Component {
 			});
 	}
 
+	onUsername = () => {
+		this.createTodoInAcademy();
+	};
+
+	onDelete = () => {};
+
 	render() {
-		const { data, currentValue } = this.state;
+		const { data, currentValue, username } = this.state;
 		return (
 			<div>
 				<div className="container todoListDiv">
@@ -100,8 +125,8 @@ export class TodoListApi extends React.Component {
 							<div className="input-group mb-3">
 								<input
 									type="text"
-									// value={currentValue}
-									// onChange={this.onChange}
+									value={username}
+									onChange={this.onChangeUsername}
 									className="form-control"
 									placeholder="Username ..."
 									aria-label="Username ..."
@@ -109,10 +134,18 @@ export class TodoListApi extends React.Component {
 								/>
 								<div className="input-group-append">
 									<button
-										onClick={this.onClick}
+										onClick={this.onUsername}
 										className="btn btn-outline-secondary"
 										type="button">
-										Add User
+										Add
+									</button>
+								</div>
+								<div className="input-group-append">
+									<button
+										onClick={this.onDelete}
+										className="btn btn-outline-secondary"
+										type="button">
+										Delete
 									</button>
 								</div>
 							</div>
